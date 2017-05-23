@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<informe>
+    <apoderado nombre="Raul" rut="123456780">
+        <alumno nombre="Roberto">
+                    <actividad nombre="Proyecto 1">
+                        <ramo>Programacion</ramo>
+                        <tipo>Practico</tipo>
+                        <descripcion>
+                            Este proyecto
+                        </descripcion>
+                        <fechaA>1-10-2017</fechaA>
+                        <evaluado>si</evaluado>
+                    </actividad>
+                <anotacion>
+                    +: Muy buen trabajo en clases
+                </anotacion>
+            <asistencia>
+                    <fecha presente="presente">1-10-2017</fecha>
+                <porcentaje>100%</porcentaje>
+            </asistencia>
+        </alumno>
+    </apoderado>
+</informe>

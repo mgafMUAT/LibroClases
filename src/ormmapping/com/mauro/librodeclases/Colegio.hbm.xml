@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Universidad de La Frontera
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.mauro.librodeclases.Colegio" table="Colegio" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="nombre" column="Nombre" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="direccion" column="Direccion" type="string" length="255" not-null="false" lazy="false"/>
+		<set name="ORM_Cursos" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="ColegioID" not-null="true"/>
+			<one-to-many class="com.mauro.librodeclases.Curso"/>
+		</set>
+		<set name="ORM_Profesores" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="ColegioID" not-null="true"/>
+			<one-to-many class="com.mauro.librodeclases.Profesor"/>
+		</set>
+	</class>
+</hibernate-mapping>

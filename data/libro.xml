@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<registro>
+    <colegio nombre="GeorgeChaytor" direccion="Av. Gabriela Mistra 43589">
+        <curso nivel="1" letra="A">
+            <profesor nombre="Victor" rut="123456789"/>
+            <ramo nombre="Programacion">
+                <actividad nombre="Proyecto 1">
+                    <tipo>Practico</tipo>
+                    <descripcion>Este proyecto</descripcion>
+                    <fechaA>1-10-2017</fechaA>
+                    <evaluado>true</evaluado>
+                </actividad>
+            </ramo>
+            <alumno>
+                <apoderado nombre="Raul" rut="123456780"/>
+                <nombre>Roberto</nombre>
+                <rut>12345678k</rut>
+                <ingreso>2017</ingreso>
+                <anotaciones>
+                    <anotacion p="true">Muy buen trabajo en clases</anotacion>
+                </anotaciones>
+                <asistencia>
+                    <fecha presente="true">1-10-2017</fecha>
+                </asistencia>
+                <notas>
+                </notas>
+            </alumno>
+        </curso>
+        <curso nivel="1" letra="B">
+        </curso>
+        <curso nivel="2" letra="A">
+        </curso>
+        <curso nivel="2" letra="B">
+        </curso>
+        <curso nivel="3" letra="A">
+        </curso>
+        <curso nivel="3" letra="B">
+        </curso>
+        <curso nivel="4" letra="A">
+        </curso>
+        <curso nivel="4" letra="B">
+        </curso>
+        <curso nivel="5" letra="A">
+        </curso>
+        <curso nivel="5" letra="B">
+        </curso>
+        <curso nivel="6" letra="A">
+        </curso>
+        <curso nivel="6" letra="B">
+        </curso>
+        <curso nivel="7" letra="A">
+        </curso>
+        <curso nivel="7" letra="B">
+        </curso>
+        <curso nivel="8" letra="A">
+        </curso>
+        <curso nivel="8" letra="B">
+        </curso>
+    </colegio>
+</registro>
