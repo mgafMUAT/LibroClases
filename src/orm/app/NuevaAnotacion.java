@@ -113,6 +113,7 @@ public class NuevaAnotacion extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
+            Principal.iniciarSesion();
             if (crea) {
                 Anotaciones anot = new Anotaciones();
                 anot.setObservacion(observacion.getText());

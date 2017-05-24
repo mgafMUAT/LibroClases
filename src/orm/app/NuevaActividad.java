@@ -132,6 +132,7 @@ public class NuevaActividad extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
+            Principal.iniciarSesion();
             if (crea) {
                 Actividad actv = new Actividad();
                 actv.setNombre(nombreActividad.getText());

@@ -165,6 +165,9 @@ public class ElegirColegio extends javax.swing.JFrame {
             Directivo dir = new Directivo();
             p.setDirectivo(dir);
             dir.setInstitucion_id_fk(ins);
+            InstitucionDAO.save(ins);
+            PersonaDAO.save(p);
+            DirectivoDAO.save(dir);
             for (int i = 2; i < 18; i++) {
                 Curso cur = CursoDAO.createCurso();
                 cur.setNivel((byte) (i / 2));
@@ -172,9 +175,6 @@ public class ElegirColegio extends javax.swing.JFrame {
                 cur.setInstitucion_id_fk(ins);
                 CursoDAO.save(cur);
             }
-            PersonaDAO.save(p);
-            DirectivoDAO.save(dir);
-            InstitucionDAO.save(ins);
         } else {
             ins = colegios[listaCol.getSelectedIndex()];
         }

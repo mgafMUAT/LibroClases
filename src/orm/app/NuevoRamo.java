@@ -173,13 +173,14 @@ public class NuevoRamo extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
+            Principal.iniciarSesion();
             if (crea) {
                 Asignatura asig = new Asignatura();
                 Profesor p;
                 if (profNuevo.isSelected()) {
                     p = new Profesor();
                     p.setPersona_id_fk(new Persona());
-                    p.getPersona_id_fk().setNombre(rutProf.getText());
+                    p.getPersona_id_fk().setNombre(nombreProf.getText());
                     p.getPersona_id_fk().setRut(rutProf.getText());
                     PersonaDAO.save(p.getPersona_id_fk());
                     ProfesorDAO.save(p);

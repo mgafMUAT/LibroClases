@@ -188,6 +188,7 @@ public class NuevoAlumno extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
+            Principal.iniciarSesion();
             if (crea) {
                 Estudiante al = new Estudiante();
                 al.setPersona_id_fk(PersonaDAO.createPersona());

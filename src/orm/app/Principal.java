@@ -64,6 +64,12 @@ public class Principal extends javax.swing.JFrame {
         if (seleccion > 0) {
             cursos.setSelectedIndex(seleccion);
         }
+        actualizar();
+    }
+    
+    private void actualizar() throws PersistentException {
+        Institucion col = InstitucionDAO.getInstitucionByORMID(colegio.getORMID());
+        colegio = col;
         setPanel();
     }
     
@@ -678,10 +684,10 @@ public class Principal extends javax.swing.JFrame {
     private void setAlumnos() throws PersistentException {
         Curso_estudiante[] ces = colegio.curso.toArray()[seleccion].curso_estudiante.toArray();
         almns = new ArrayList<>();
-        String sel = (String) cursos.getSelectedItem();
+        int cu_sel = cursos.getSelectedIndex() + 1;
         for (Curso_estudiante ce : ces) {
             Curso cu = ce.getCurso_id_fk();
-            if (sel.substring(0, 1).equals(cu.getNivel()) && sel.charAt(3) == cu.getLetra()) {
+            if (cu.getId() == cu_sel) {
                 almns.add(ce.getEstudiante_id_fk());
             }
         }
@@ -690,10 +696,10 @@ public class Principal extends javax.swing.JFrame {
     private void setRamos() {
         Asignatura[] asigs = colegio.curso.toArray()[seleccion].asignatura.toArray();
         ramos = new ArrayList<>();
-        String sel = (String) cursos.getSelectedItem();
+        int cu_sel = cursos.getSelectedIndex() + 1;
         for (Asignatura asig : asigs) {
             Curso cu = asig.getCurso_id_fk();
-            if (sel.substring(0, 1).equals(cu.getNivel()) && sel.charAt(3) == cu.getLetra()) {
+            if (cu.getId() == cu_sel) {
                 ramos.add(asig);
             }
         }
@@ -785,6 +791,8 @@ public class Principal extends javax.swing.JFrame {
             t.rollback();
         } catch (PersistentException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            System.exit(0);
         }
     }
 

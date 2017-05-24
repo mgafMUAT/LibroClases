@@ -139,6 +139,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
+            Principal.iniciarSesion();
             if (crea) {
                 Asistencia asist;
                 asist = new Asistencia();
