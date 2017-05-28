@@ -120,6 +120,7 @@ public class NuevaActividad extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
@@ -132,23 +133,24 @@ public class NuevaActividad extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
-            Principal.iniciarSesion();
             if (crea) {
+                if (nombreActividad.getText().equals("") || tipoActividad.getText().equals("")) {
+                    return;
+                }
+                Principal.iniciarTransaccion();
                 Actividad actv = new Actividad();
                 actv.setNombre(nombreActividad.getText());
                 actv.setTipo(tipoActividad.getText());
                 actv.setDescripcion(descActividad.getText());
                 Principal.getRamoSeleccionado().actividad.add(actv);
                 ActividadDAO.save(actv);
+            } else {
+                Principal.iniciarTransaccion();
             }
             this.dispose();
             new Principal().setVisible(true);
         } catch (PersistentException pe) {
-            try {
-                throw pe;
-            } catch (PersistentException ex) {
-                Logger.getLogger(NuevaActividad.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Principal.error(pe);
         }
     }
 

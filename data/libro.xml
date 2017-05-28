@@ -1,60 +1,90 @@
 <?xml version="1.0"?>
 <registro>
-    <colegio nombre="GeorgeChaytor" direccion="Av. Gabriela Mistra 43589">
+    <colegio nombre="George Chaytor" direccion="Fernanda Martínez">
+        <curso nivel="4" letra="B">
+        </curso>
+        <curso nivel="7" letra="B">
+        </curso>
         <curso nivel="1" letra="A">
-            <profesor nombre="Victor" rut="123456789"/>
-            <ramo nombre="Programacion">
-                <actividad nombre="Proyecto 1">
-                    <tipo>Practico</tipo>
-                    <descripcion>Este proyecto</descripcion>
-                    <fechaA>1-10-2017</fechaA>
-                    <evaluado>true</evaluado>
+            <profesor nombre="Joaquín Feña" rut="17439473k"/>
+            <ramo nombre="Ingeniería">
+                <actividad nombre="Prueba 1">
+                    <tipo>Teórico</tipo>
+                    <descripcion>Prueba teórica 1
+Materia estudiada</descripcion>
+                    <evaluado>false</evaluado>
                 </actividad>
             </ramo>
+        </curso>
+        <curso nivel="6" letra="A">
+        </curso>
+        <curso nivel="3" letra="B">
+        </curso>
+        <curso nivel="8" letra="B">
+        </curso>
+        <curso nivel="1" letra="B">
+        </curso>
+        <curso nivel="5" letra="B">
+            <profesor nombre="Samuel Sepúlveda" rut="14275395k"/>
+            <ramo nombre="Programación">
+                <actividad nombre="Proyecto 2">
+                    <tipo>Práctico</tipo>
+                    <descripcion>Este Proyecto</descripcion>
+                    <evaluado>false</evaluado>
+                </actividad>
+            </ramo>
+        </curso>
+        <curso nivel="3" letra="A">
+        </curso>
+        <curso nivel="5" letra="A">
             <alumno>
-                <apoderado nombre="Raul" rut="123456780"/>
-                <nombre>Roberto</nombre>
-                <rut>12345678k</rut>
+                <apoderado nombre="Roberto" rut="12386989k"/>
+                <nombre>Gerardo</nombre>
+                <rut>135443523</rut>
                 <ingreso>2017</ingreso>
                 <anotaciones>
-                    <anotacion p="true">Muy buen trabajo en clases</anotacion>
                 </anotaciones>
                 <asistencia>
-                    <fecha presente="true">1-10-2017</fecha>
                 </asistencia>
                 <notas>
                 </notas>
             </alumno>
         </curso>
-        <curso nivel="1" letra="B">
+        <curso nivel="8" letra="A">
+        </curso>
+        <curso nivel="4" letra="A">
+        </curso>
+        <curso nivel="6" letra="B">
         </curso>
         <curso nivel="2" letra="A">
         </curso>
         <curso nivel="2" letra="B">
-        </curso>
-        <curso nivel="3" letra="A">
-        </curso>
-        <curso nivel="3" letra="B">
-        </curso>
-        <curso nivel="4" letra="A">
-        </curso>
-        <curso nivel="4" letra="B">
-        </curso>
-        <curso nivel="5" letra="A">
-        </curso>
-        <curso nivel="5" letra="B">
-        </curso>
-        <curso nivel="6" letra="A">
-        </curso>
-        <curso nivel="6" letra="B">
+            <alumno>
+                <apoderado nombre="Roberto" rut="12386989k"/>
+                <nombre>Raúl</nombre>
+                <rut>120634987</rut>
+                <ingreso>2017</ingreso>
+                <anotaciones>
+                </anotaciones>
+                <asistencia>
+                </asistencia>
+                <notas>
+                </notas>
+            </alumno>
         </curso>
         <curso nivel="7" letra="A">
-        </curso>
-        <curso nivel="7" letra="B">
-        </curso>
-        <curso nivel="8" letra="A">
-        </curso>
-        <curso nivel="8" letra="B">
+            <alumno>
+                <apoderado nombre="Matilde" rut="101347305"/>
+                <nombre>Armando</nombre>
+                <rut>143498764</rut>
+                <ingreso>2017</ingreso>
+                <anotaciones>
+                </anotaciones>
+                <asistencia>
+                </asistencia>
+                <notas>
+                </notas>
+            </alumno>
         </curso>
     </colegio>
 </registro>

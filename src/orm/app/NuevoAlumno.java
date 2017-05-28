@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.orm.PersistentException;
 import orm.Apoderado;
 import orm.ApoderadoDAO;
+import orm.CursoDAO;
 import orm.Curso_estudiante;
 import orm.Curso_estudianteDAO;
 import orm.Estudiante;
@@ -71,6 +72,12 @@ public class NuevoAlumno extends javax.swing.JFrame {
 
         jLabel2.setText("Rut del alumno:");
 
+        rutAlumno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rutAlumnoKeyTyped(evt);
+            }
+        });
+
         buttonGroup1.add(apodNuevo);
         apodNuevo.setSelected(true);
         apodNuevo.setText("Apoderado nuevo:");
@@ -78,6 +85,12 @@ public class NuevoAlumno extends javax.swing.JFrame {
         jLabel3.setText("Nombre:");
 
         jLabel5.setText("Rut:");
+
+        rutApod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rutApodKeyTyped(evt);
+            }
+        });
 
         buttonGroup1.add(apodExistente);
         apodExistente.setText("Apoderado ya registrado");
@@ -109,35 +122,29 @@ public class NuevoAlumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addComponent(nombreApod, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nombreAlumno))
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(rutAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ingreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ingreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(apodNuevo)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(listaApod, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(apodExistente, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(apodExistente)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAceptar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreApod, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(rutApod, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(listaApod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nombreAlumno))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5)
+                    .addComponent(rutAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(rutApod, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +183,7 @@ public class NuevoAlumno extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -186,16 +194,54 @@ public class NuevoAlumno extends javax.swing.JFrame {
         listo(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void rutAlumnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rutAlumnoKeyTyped
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            return;
+        }
+        if (rutAlumno.getText().length() > 8) {
+            evt.consume();
+        }
+        char keyChar = evt.getKeyChar();
+        if (!(rutAlumno.getText().length() == 8 && keyChar == 'k')) {
+            if (keyChar < '0' || keyChar > '9') {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_rutAlumnoKeyTyped
+
+    private void rutApodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rutApodKeyTyped
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            return;
+        }
+        if (rutApod.getText().length() > 8) {
+            evt.consume();
+        }
+        char keyChar = evt.getKeyChar();
+        if (!(rutApod.getText().length() == 8 && keyChar == 'k')) {
+            if (keyChar < '0' || keyChar > '9') {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_rutApodKeyTyped
+
     private void listo(boolean crea) {
         try {
-            Principal.iniciarSesion();
             if (crea) {
+                if (nombreAlumno.getText().equals("") || rutAlumno.getText().length() < 9) {
+                    return;
+                }
+                if (apodNuevo.isSelected()) {
+                    if (nombreApod.getText().equals("") || rutApod.getText().length() < 9) {
+                        return;
+                    }
+                }
+                Principal.iniciarTransaccion();
                 Estudiante al = new Estudiante();
                 al.setPersona_id_fk(PersonaDAO.createPersona());
                 al.getPersona_id_fk().setNombre(nombreAlumno.getText());
                 al.getPersona_id_fk().setRut(rutAlumno.getText());
                 al.setAgnoIngreso((int) ingreso.getValue());
-                al.setMatricula(rutAlumno.getText().concat((String) ingreso.getValue()));
+                al.setMatricula(rutAlumno.getText().concat(Integer.toString((int) ingreso.getValue())));
                 Apoderado apod;
                 if (apodNuevo.isSelected()) {
                     apod = ApoderadoDAO.createApoderado();
@@ -208,19 +254,17 @@ public class NuevoAlumno extends javax.swing.JFrame {
                 }
                 al.setApoderado_id_fk(apod);
                 Curso_estudiante ce = Curso_estudianteDAO.createCurso_estudiante();
-                ce.setCurso_id_fk(Principal.colegio.curso.toArray()[Principal.seleccion]);
+                ce.setCurso_id_fk(CursoDAO.getCursoByORMID(Principal.cu_id));
                 ce.setEstudiante_id_fk(al);
-                Curso_estudianteDAO.save(ce);
                 EstudianteDAO.save(al);
+                Curso_estudianteDAO.save(ce);
+            } else {
+                Principal.iniciarTransaccion();
             }
             this.dispose();
             new Principal().setVisible(true);
         } catch (PersistentException pe) {
-            try {
-                throw pe;
-            } catch (PersistentException ex) {
-                Logger.getLogger(NuevoAlumno.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Principal.error(pe);
         }
     }
 

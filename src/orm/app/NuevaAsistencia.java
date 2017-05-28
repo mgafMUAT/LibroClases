@@ -127,6 +127,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
@@ -139,7 +140,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
-            Principal.iniciarSesion();
+            Principal.iniciarTransaccion();
             if (crea) {
                 Asistencia asist;
                 asist = new Asistencia();
@@ -154,11 +155,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
             this.dispose();
             new Principal().setVisible(true);
         } catch (PersistentException pe) {
-            try {
-                throw pe;
-            } catch (PersistentException ex) {
-                Logger.getLogger(NuevaAsistencia.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Principal.error(pe);
         }
     }
     

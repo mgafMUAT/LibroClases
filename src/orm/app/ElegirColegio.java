@@ -27,7 +27,7 @@ import orm.PersonaDAO;
  * @author Mauricio Acencio
  */
 public class ElegirColegio extends javax.swing.JFrame {
-    
+
     private final Institucion[] colegios;
 
     /**
@@ -92,6 +92,12 @@ public class ElegirColegio extends javax.swing.JFrame {
 
         jLabel6.setText("Director(a):");
 
+        rutDirColegio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rutDirColegioKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,6 +148,7 @@ public class ElegirColegio extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -152,9 +159,30 @@ public class ElegirColegio extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
-    
+
+    private void rutDirColegioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rutDirColegioKeyTyped
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            return;
+        }
+        if (rutDirColegio.getText().length() > 8) {
+            evt.consume();
+        }
+        char keyChar = evt.getKeyChar();
+        if (!(rutDirColegio.getText().length() == 8 && keyChar == 'k')) {
+            if (keyChar < '0' || keyChar > '9') {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_rutDirColegioKeyTyped
+
     private void listo() throws PersistentException {
-        Principal.iniciarSesion();
+        if (colNuevo.isSelected()) {
+            if (dirColegio.getText().equals("") || rutDirColegio.getText().length() < 9
+                    || nombreCol.getText().equals("")) {
+                return;
+            }
+        }
+        Principal.iniciarTransaccion();
         Institucion ins;
         if (colNuevo.isSelected()) {
             ins = new Institucion();

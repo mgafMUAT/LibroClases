@@ -6,6 +6,7 @@
 package orm.app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -23,13 +24,9 @@ import orm.*;
 public class Principal extends javax.swing.JFrame {
     
     private static PersistentTransaction t;
-
-    /**
-     * \u00cdndice seleccionado de la lista de cursos: 0: 1ºA; 1: 1ºB; 2: 2ºA;
-     * 3: 2ºB; 4: 3ºA; 5: 3ºB; 6: 4ºA; 7: 4ºB 8: 5ºA; 9: 5ºB; 10: 6ºA; 11: 6ºB;
-     * 12: 7ºA; 13: 7ºB; 14: 8ºA; 15: 8ºB
-     */
-    public static byte seleccion = 0;
+    private static byte seleccion = 0;
+    
+    public static int cu_id;
 
     /**
      * \u00cdndice seleccionado de la lista de ramos del curso actualmente
@@ -64,17 +61,20 @@ public class Principal extends javax.swing.JFrame {
         if (seleccion > 0) {
             cursos.setSelectedIndex(seleccion);
         }
-        actualizar();
+       setPanel();
     }
     
-    private void actualizar() throws PersistentException {
-        Institucion col = InstitucionDAO.getInstitucionByORMID(colegio.getORMID());
-        colegio = col;
-        setPanel();
-    }
-    
-    public static void iniciarSesion() throws PersistentException {
+    public static void iniciarTransaccion() throws PersistentException {
         t = orm.LibroClasePersistentManager.instance().getSession().beginTransaction();
+    }
+    
+    private int getCursoID() throws PersistentException {
+        String sel = (String) cursos.getSelectedItem();
+        String cond = "letra = '" + sel.charAt(3) + "' and nivel = " + sel.charAt(0)
+                + " and institucion_id_fk = " + colegio.getId();
+        Curso cur = CursoDAO.loadCursoByQuery(cond, null);
+        cu_id = cur.getId();
+        return cu_id;
     }
     
     public static Estudiante getEstudianteSeleccionado() {
@@ -127,14 +127,6 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         modeloAnot = new DefaultListModel();
         listaAnotaciones = new javax.swing.JList<>();
-        jLabel9 = new javax.swing.JLabel();
-        listaNotas = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        notaPromedio = new javax.swing.JLabel();
-        agregarNota = new javax.swing.JButton();
-        nota1 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        nota2 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         agregarAsistencia = new javax.swing.JButton();
         verAsistencia = new javax.swing.JButton();
@@ -308,35 +300,6 @@ public class Principal extends javax.swing.JFrame {
         listaActividades.setModel(modeloAnot);
         jScrollPane3.setViewportView(listaAnotaciones);
 
-        jLabel9.setText("Notas:");
-
-        jLabel10.setText("Promedio:");
-
-        notaPromedio.setText("-,-");
-
-        agregarNota.setText("Agregar:");
-        agregarNota.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarNotaActionPerformed(evt);
-            }
-        });
-
-        nota1.setText("1");
-        nota1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                nota1KeyTyped(evt);
-            }
-        });
-
-        jLabel12.setText(",");
-
-        nota2.setText("0");
-        nota2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                nota2KeyTyped(evt);
-            }
-        });
-
         jLabel11.setText("Registro de asistencias:");
 
         agregarAsistencia.setText("Agregar...");
@@ -361,22 +324,6 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelAlumnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
-                    .addGroup(jPanelAlumnoLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(listaNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(notaPromedio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(agregarNota)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nota1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nota2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelAlumnoLayout.createSequentialGroup()
                         .addGroup(jPanelAlumnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelAlumnoLayout.createSequentialGroup()
@@ -425,17 +372,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(agregarAnotacion))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelAlumnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(listaNotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(notaPromedio)
-                    .addComponent(agregarNota)
-                    .addComponent(nota1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
-                    .addComponent(nota2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(40, 40, 40)
                 .addGroup(jPanelAlumnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(agregarAsistencia)
@@ -528,6 +465,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarActionPerformed
@@ -573,16 +511,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarActividadActionPerformed
 
     private void detalleActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detalleActividadActionPerformed
-        new VerActividad(listaActividades.getSelectedIndex()).setVisible(true);
+        if (listaActividades.getSelectedIndex() > -1) {
+            new VerActividad(listaActividades.getSelectedIndex()).setVisible(true);
+        }
     }//GEN-LAST:event_detalleActividadActionPerformed
 
     private void listaRamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaRamosActionPerformed
         numRamo = listaRamos.getSelectedIndex();
-        try {
-            setPanel();
-        } catch (PersistentException ex) {
-            error(ex);
-        }
+        setTextoRamo();
     }//GEN-LAST:event_listaRamosActionPerformed
 
     private void agregarAnotacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarAnotacionActionPerformed
@@ -593,14 +529,6 @@ public class Principal extends javax.swing.JFrame {
         agregarAsistencia();
     }//GEN-LAST:event_agregarAsistenciaActionPerformed
 
-    private void agregarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarNotaActionPerformed
-        try {
-            agregarNota();
-        } catch (PersistentException ex) {
-            error(ex);
-        }
-    }//GEN-LAST:event_agregarNotaActionPerformed
-
     private void verAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verAsistenciaActionPerformed
         new VerAsistencia().setVisible(true);
     }//GEN-LAST:event_verAsistenciaActionPerformed
@@ -609,33 +537,6 @@ public class Principal extends javax.swing.JFrame {
         numAlumno = listaAlumnos.getSelectedIndex();
         setTextoAlumno();
     }//GEN-LAST:event_listaAlumnosActionPerformed
-
-    private void nota1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota1KeyTyped
-        int n = Character.getNumericValue(evt.getKeyChar());
-        if (n < 1 || n > 7) {
-            evt.consume();
-            if (nota1.getColumns() == 0) {
-                nota1.setText("1");
-            }
-        } else if (nota1.getColumns() > 1) {
-            nota1.setText(Integer.toString(n));
-        }
-    }//GEN-LAST:event_nota1KeyTyped
-
-    private void nota2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nota2KeyTyped
-        int n = Character.getNumericValue(evt.getKeyChar());
-        if (n < 0 || n > 7) {
-            evt.consume();
-            if (nota2.getColumns() == 0) {
-                nota2.setText("0");
-            }
-        } else if (nota2.getColumns() > 1) {
-            nota2.setText(Integer.toString(n));
-        }
-        if (nota1.getText().equals(7) && n == 0) {
-            nota2.setText("0");
-        }
-    }//GEN-LAST:event_nota2KeyTyped
 
     private void cursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursosActionPerformed
         seleccion = (byte) cursos.getSelectedIndex();
@@ -670,57 +571,39 @@ public class Principal extends javax.swing.JFrame {
         this.dispose();
         new NuevaAsistencia().setVisible(true);
     }
-
-    private void agregarNota() throws PersistentException {
-        float nota = Integer.parseInt(nota1.getText())
-                + Float.parseFloat("0." + nota2.getText());
-        Nota n = NotaDAO.createNota();
-        n.setNota(nota);
-        n.setEstudiante_id_fk(almns.get(numAlumno));
-        NotaDAO.save(n);
-        setTextoAlumno();
-    }
     
     private void setAlumnos() throws PersistentException {
-        Curso_estudiante[] ces = colegio.curso.toArray()[seleccion].curso_estudiante.toArray();
+        int cid = getCursoID();
+        Curso_estudiante[] ces = Curso_estudianteDAO.listCurso_estudianteByQuery("curso_id_fk = " + cid, null);
         almns = new ArrayList<>();
-        int cu_sel = cursos.getSelectedIndex() + 1;
         for (Curso_estudiante ce : ces) {
-            Curso cu = ce.getCurso_id_fk();
-            if (cu.getId() == cu_sel) {
-                almns.add(ce.getEstudiante_id_fk());
-            }
+            almns.add(ce.getEstudiante_id_fk());
         }
     }
     
-    private void setRamos() {
-        Asignatura[] asigs = colegio.curso.toArray()[seleccion].asignatura.toArray();
-        ramos = new ArrayList<>();
-        int cu_sel = cursos.getSelectedIndex() + 1;
-        for (Asignatura asig : asigs) {
-            Curso cu = asig.getCurso_id_fk();
-            if (cu.getId() == cu_sel) {
-                ramos.add(asig);
-            }
-        }
+    private void setRamos() throws PersistentException {
+        int cid = getCursoID();
+        Asignatura[] asigs = AsignaturaDAO.listAsignaturaByQuery("curso_id_fk = " + cid, null);
+        ramos = new ArrayList<>(Arrays.asList(asigs));
     }
 
     private void setPanel() throws PersistentException {
         listaAlumnos.removeAllItems();
         setAlumnos();
-        listaAlumnos.setEnabled(almns.isEmpty());
+        listaAlumnos.setEnabled(!almns.isEmpty());
         almns.forEach((alumno) -> {
             listaAlumnos.addItem(alumno.getPersona_id_fk().getNombre());
         });
         listaAlumnos.setSelectedIndex(almns.isEmpty() ? -1 : numAlumno);
         listaRamos.removeAllItems();
         setRamos();
-        listaRamos.setEnabled(ramos.isEmpty());
+        listaRamos.setEnabled(!ramos.isEmpty());
         ramos.forEach((ramo) -> {
             listaRamos.addItem(ramo.getNombre());
         });
         listaRamos.setSelectedIndex(ramos.isEmpty() ? -1 : numRamo);
         setTextoRamo();
+        setTextoAlumno();
     }
 
     private void setTextoRamo() {
@@ -740,21 +623,18 @@ public class Principal extends javax.swing.JFrame {
             }
             listaActividades.setModel(modeloActv);
             detalleActividad.setEnabled(!r.actividad.isEmpty());
+            agregarActividad.setEnabled(true);
             nuevoAlumno.setEnabled(true);
         }
-        setTextoAlumno();
     }
 
     private void setTextoAlumno() {
         modeloAnot.removeAllElements();
-        listaNotas.removeAllItems();
         if (listaAlumnos.getSelectedIndex() == -1) {
             nombreAlumno.setText("");
             matriculaAlumno.setText("");
             nombreApoderado.setText("");
             agregarAnotacion.setEnabled(false);
-            notaPromedio.setText("-,-");
-            agregarNota.setEnabled(false);
             verAsistencia.setEnabled(false);
             agregarAsistencia.setEnabled(false);
         } else {
@@ -769,23 +649,12 @@ public class Principal extends javax.swing.JFrame {
             }
             listaAnotaciones.setModel(modeloAnot);
             agregarAnotacion.setEnabled(true);
-            if (al.nota.isEmpty()) {
-                notaPromedio.setText("-,-");
-            } else {
-                float sum = 0;
-                for (Nota nota : al.nota.toArray()) {
-                    listaNotas.addItem(String.format("%.1f", nota.getNota()));
-                    sum += nota.getNota();
-                }
-                notaPromedio.setText(String.format("%.1f", (sum / al.nota.size())));
-            }
-            agregarNota.setEnabled(true);
             verAsistencia.setEnabled(!al.asistencia.isEmpty());
             agregarAsistencia.setEnabled(true);
         }
     }
     
-    private void error(Exception pe){
+    public static void error(Exception pe){
         pe.printStackTrace();
         try {
             t.rollback();
@@ -863,7 +732,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton agregarActividad;
     private javax.swing.JButton agregarAnotacion;
     private javax.swing.JButton agregarAsistencia;
-    private javax.swing.JButton agregarNota;
     private javax.swing.JComboBox<String> cursos;
     private javax.swing.JButton detalleActividad;
     private javax.swing.JMenuItem itemGuardar;
@@ -873,9 +741,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemSalir;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -883,7 +749,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenuInfrome;
     private javax.swing.JMenu jMenuNuevo;
@@ -901,7 +766,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> listaAlumnos;
     private javax.swing.JList<String> listaAnotaciones;
     private DefaultListModel modeloAnot;
-    private javax.swing.JComboBox<String> listaNotas;
     private javax.swing.JComboBox<String> listaRamos;
     private javax.swing.JLabel matriculaAlumno;
     private javax.swing.JMenuBar menu;
@@ -909,9 +773,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel nombreApoderado;
     private javax.swing.JLabel nombreProfesor;
     private javax.swing.JLabel nombreRamo;
-    private javax.swing.JTextField nota1;
-    private javax.swing.JTextField nota2;
-    private javax.swing.JLabel notaPromedio;
     private javax.swing.JMenuItem nuevoAlumno;
     private javax.swing.JMenuItem nuevoRamo;
     private javax.swing.JButton verAsistencia;

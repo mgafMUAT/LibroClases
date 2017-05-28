@@ -73,7 +73,7 @@ public class NuevaAnotacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -91,16 +91,17 @@ public class NuevaAnotacion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(positiva))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar)
                     .addComponent(botonAceptar))
-                .addGap(126, 126, 126))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
@@ -113,22 +114,20 @@ public class NuevaAnotacion extends javax.swing.JFrame {
 
     private void listo(boolean crea) {
         try {
-            Principal.iniciarSesion();
+            Principal.iniciarTransaccion();
             if (crea) {
                 Anotaciones anot = new Anotaciones();
                 anot.setObservacion(observacion.getText());
                 anot.setEsPositiva(positiva.isSelected());
+                anot.setEstudiante_id_fk(Principal.getEstudianteSeleccionado());
+                anot.setProfesor_id_fk(Principal.getRamoSeleccionado().getProfesorid_pk());
                 Principal.getEstudianteSeleccionado().anotaciones.add(anot);
                 AnotacionesDAO.save(anot);
             }
             this.dispose();
             new Principal().setVisible(true);
         } catch (PersistentException pe) {
-            try {
-                throw pe;
-            } catch (PersistentException ex) {
-                Logger.getLogger(NuevaAnotacion.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Principal.error(pe);
         }
     }
 

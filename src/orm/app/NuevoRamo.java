@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import org.orm.PersistentException;
 import orm.Asignatura;
 import orm.AsignaturaDAO;
+import orm.Curso;
+import orm.CursoDAO;
 import orm.Persona;
 import orm.PersonaDAO;
 import orm.Profesor;
@@ -74,6 +76,12 @@ public class NuevoRamo extends javax.swing.JFrame {
         jLabel3.setText("Nombre:");
 
         jLabel5.setText("Rut:");
+
+        rutProf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rutProfKeyTyped(evt);
+            }
+        });
 
         buttonGroup1.add(profExistente);
         profExistente.setText("Profesor ya registrado");
@@ -161,6 +169,7 @@ public class NuevoRamo extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -171,10 +180,33 @@ public class NuevoRamo extends javax.swing.JFrame {
         listo(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void rutProfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rutProfKeyTyped
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            return;
+        }
+        if (rutProf.getText().length() > 8) {
+            evt.consume();
+        }
+        char keyChar = evt.getKeyChar();
+        if (!(rutProf.getText().length() == 8 && keyChar == 'k')) {
+            if (keyChar < '0' || keyChar > '9') {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_rutProfKeyTyped
+
     private void listo(boolean crea) {
         try {
-            Principal.iniciarSesion();
             if (crea) {
+                if (nombreRamo.getText().equals("")) {
+                    return;
+                }
+                if (profNuevo.isSelected()) {
+                    if (nombreProf.getText().equals("") || rutProf.getText().length() < 9) {
+                        return;
+                    }
+                }
+                Principal.iniciarTransaccion();
                 Asignatura asig = new Asignatura();
                 Profesor p;
                 if (profNuevo.isSelected()) {
@@ -184,23 +216,21 @@ public class NuevoRamo extends javax.swing.JFrame {
                     p.getPersona_id_fk().setRut(rutProf.getText());
                     PersonaDAO.save(p.getPersona_id_fk());
                     ProfesorDAO.save(p);
-                    
+
                 } else {
                     p = profesores[listaProf.getSelectedIndex()];
                 }
-                asig.setCurso_id_fk(Principal.colegio.curso.toArray()[Principal.seleccion]);
+                asig.setCurso_id_fk(CursoDAO.getCursoByORMID(Principal.cu_id));
                 asig.setProfesorid_pk(p);
                 asig.setNombre(nombreRamo.getText());
                 AsignaturaDAO.save(asig);
+            } else {
+                Principal.iniciarTransaccion();
             }
             this.dispose();
             new Principal().setVisible(true);
         } catch (PersistentException pe) {
-            try {
-                throw pe;
-            } catch (PersistentException ex) {
-                Logger.getLogger(NuevoRamo.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Principal.error(pe);
         }
     }
 
