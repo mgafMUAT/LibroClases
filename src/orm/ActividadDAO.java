@@ -327,10 +327,10 @@ public class ActividadDAO {
 				actividad.getAsignatura_id_fk().actividad.remove(actividad);
 			}
 			
-			if (actividad.getNota() != null) {
-				actividad.getNota().setActividad_id_fk(null);
+			orm.Nota[] lNotas = actividad.nota.toArray();
+			for(int i = 0; i < lNotas.length; i++) {
+				lNotas[i].setActividad_id_fk(null);
 			}
-			
 			return delete(actividad);
 		}
 		catch(Exception e) {
@@ -345,10 +345,10 @@ public class ActividadDAO {
 				actividad.getAsignatura_id_fk().actividad.remove(actividad);
 			}
 			
-			if (actividad.getNota() != null) {
-				actividad.getNota().setActividad_id_fk(null);
+			orm.Nota[] lNotas = actividad.nota.toArray();
+			for(int i = 0; i < lNotas.length; i++) {
+				lNotas[i].setActividad_id_fk(null);
 			}
-			
 			try {
 				session.delete(actividad);
 				return true;

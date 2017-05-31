@@ -63,19 +63,26 @@ public class Nota {
 	}
 	
 	public void setActividad_id_fk(orm.Actividad value) {
-		if (this.actividad_id_fk != value) {
-			orm.Actividad lactividad_id_fk = this.actividad_id_fk;
-			this.actividad_id_fk = value;
-			if (value != null) {
-				actividad_id_fk.setNota(this);
-			}
-			if (lactividad_id_fk != null && lactividad_id_fk.getNota() == this) {
-				lactividad_id_fk.setNota(null);
-			}
+		if (actividad_id_fk != null) {
+			actividad_id_fk.nota.remove(this);
+		}
+		if (value != null) {
+			value.nota.add(this);
 		}
 	}
 	
 	public orm.Actividad getActividad_id_fk() {
+		return actividad_id_fk;
+	}
+	
+	/**
+	 * This method is for internal use only.
+	 */
+	public void setORM_Actividad_id_fk(orm.Actividad value) {
+		this.actividad_id_fk = value;
+	}
+	
+	private orm.Actividad getORM_Actividad_id_fk() {
 		return actividad_id_fk;
 	}
 	

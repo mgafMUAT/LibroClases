@@ -25,8 +25,7 @@ public class ActividadCriteria extends AbstractORMCriteria {
 	public final StringExpression nombre;
 	public final StringExpression tipo;
 	public final StringExpression descripcion;
-	public final IntegerExpression notaId;
-	public final AssociationExpression nota;
+	public final CollectionExpression nota;
 	
 	public ActividadCriteria(Criteria criteria) {
 		super(criteria);
@@ -36,8 +35,7 @@ public class ActividadCriteria extends AbstractORMCriteria {
 		nombre = new StringExpression("nombre", this);
 		tipo = new StringExpression("tipo", this);
 		descripcion = new StringExpression("descripcion", this);
-		notaId = new IntegerExpression("nota.id", this);
-		nota = new AssociationExpression("nota", this);
+		nota = new CollectionExpression("ORM_Nota", this);
 	}
 	
 	public ActividadCriteria(PersistentSession session) {
@@ -53,7 +51,7 @@ public class ActividadCriteria extends AbstractORMCriteria {
 	}
 	
 	public NotaCriteria createNotaCriteria() {
-		return new NotaCriteria(createCriteria("nota"));
+		return new NotaCriteria(createCriteria("ORM_Nota"));
 	}
 	
 	public Actividad uniqueActividad() {

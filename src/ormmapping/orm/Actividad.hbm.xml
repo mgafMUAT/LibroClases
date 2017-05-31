@@ -15,6 +15,9 @@ License Type: Academic
 		<property name="nombre" column="nombre" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="tipo" column="tipo" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="descripcion" column="descripcion" type="string" length="255" not-null="false" lazy="false"/>
-		<one-to-one name="nota" class="orm.Nota" cascade="save-update,lock" property-ref="actividad_id_fk" lazy="proxy" access="field"/>
+		<set name="ORM_Nota" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="actividad_id_fk" not-null="true"/>
+			<one-to-many class="orm.Nota"/>
+		</set>
 	</class>
 </hibernate-mapping>

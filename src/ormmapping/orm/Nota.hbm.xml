@@ -10,7 +10,7 @@ License Type: Academic
 			<generator class="increment">
 			</generator>
 		</id>
-		<many-to-one name="actividad_id_fk" column="actividad_id_fk" class="orm.Actividad" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="actividad_id_fk" cascade="lock" column="actividad_id_fk" class="orm.Actividad" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<many-to-one name="estudiante_id_fk" cascade="lock" column="estudiante_id_fk" class="orm.Estudiante" not-null="true" lazy="proxy" access="field">
 		</many-to-one>

@@ -324,7 +324,7 @@ public class NotaDAO {
 	public static boolean deleteAndDissociate(orm.Nota nota)throws PersistentException {
 		try {
 			if (nota.getActividad_id_fk() != null) {
-				nota.getActividad_id_fk().setNota(null);
+				nota.getActividad_id_fk().nota.remove(nota);
 			}
 			
 			if (nota.getEstudiante_id_fk() != null) {
@@ -342,7 +342,7 @@ public class NotaDAO {
 	public static boolean deleteAndDissociate(orm.Nota nota, org.orm.PersistentSession session)throws PersistentException {
 		try {
 			if (nota.getActividad_id_fk() != null) {
-				nota.getActividad_id_fk().setNota(null);
+				nota.getActividad_id_fk().nota.remove(nota);
 			}
 			
 			if (nota.getEstudiante_id_fk() != null) {

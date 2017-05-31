@@ -25,8 +25,7 @@ public class ActividadDetachedCriteria extends AbstractORMDetachedCriteria {
 	public final StringExpression nombre;
 	public final StringExpression tipo;
 	public final StringExpression descripcion;
-	public final IntegerExpression notaId;
-	public final AssociationExpression nota;
+	public final CollectionExpression nota;
 	
 	public ActividadDetachedCriteria() {
 		super(orm.Actividad.class, orm.ActividadCriteria.class);
@@ -36,8 +35,7 @@ public class ActividadDetachedCriteria extends AbstractORMDetachedCriteria {
 		nombre = new StringExpression("nombre", this.getDetachedCriteria());
 		tipo = new StringExpression("tipo", this.getDetachedCriteria());
 		descripcion = new StringExpression("descripcion", this.getDetachedCriteria());
-		notaId = new IntegerExpression("nota.id", this.getDetachedCriteria());
-		nota = new AssociationExpression("nota", this.getDetachedCriteria());
+		nota = new CollectionExpression("ORM_Nota", this.getDetachedCriteria());
 	}
 	
 	public ActividadDetachedCriteria(DetachedCriteria aDetachedCriteria) {
@@ -48,8 +46,7 @@ public class ActividadDetachedCriteria extends AbstractORMDetachedCriteria {
 		nombre = new StringExpression("nombre", this.getDetachedCriteria());
 		tipo = new StringExpression("tipo", this.getDetachedCriteria());
 		descripcion = new StringExpression("descripcion", this.getDetachedCriteria());
-		notaId = new IntegerExpression("nota.id", this.getDetachedCriteria());
-		nota = new AssociationExpression("nota", this.getDetachedCriteria());
+		nota = new CollectionExpression("ORM_Nota", this.getDetachedCriteria());
 	}
 	
 	public AsignaturaDetachedCriteria createAsignatura_id_fkCriteria() {
@@ -57,7 +54,7 @@ public class ActividadDetachedCriteria extends AbstractORMDetachedCriteria {
 	}
 	
 	public NotaDetachedCriteria createNotaCriteria() {
-		return new NotaDetachedCriteria(createCriteria("nota"));
+		return new NotaDetachedCriteria(createCriteria("ORM_Nota"));
 	}
 	
 	public Actividad uniqueActividad(PersistentSession session) {
