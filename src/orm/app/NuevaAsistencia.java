@@ -18,6 +18,8 @@ import orm.AsistenciaDAO;
  */
 public class NuevaAsistencia extends javax.swing.JFrame {
 
+    private boolean bis = false;
+
     /**
      * Creates new form NuevaAsistencia
      */
@@ -37,12 +39,12 @@ public class NuevaAsistencia extends javax.swing.JFrame {
         botonAceptar = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         presente = new javax.swing.JCheckBox();
-        diaAsistencia = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        mesAsistencia = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
-        agnoAsistencia = new javax.swing.JSpinner();
+        diaAsistencia = new javax.swing.JComboBox<>();
+        mesAsistencia = new javax.swing.JComboBox<>();
+        agnoAsistencia = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registrar Asistencia");
@@ -63,17 +65,27 @@ public class NuevaAsistencia extends javax.swing.JFrame {
 
         presente.setText("Presente");
 
-        diaAsistencia.setModel(new javax.swing.SpinnerNumberModel(Byte.valueOf((byte)1), Byte.valueOf((byte)1), Byte.valueOf((byte)31), Byte.valueOf((byte)1)));
-
         jLabel4.setText("Día:");
 
         jLabel5.setText("Mes:");
 
-        mesAsistencia.setModel(new javax.swing.SpinnerNumberModel(Byte.valueOf((byte)10), Byte.valueOf((byte)1), Byte.valueOf((byte)12), Byte.valueOf((byte)1)));
-
         jLabel6.setText("Año:");
 
-        agnoAsistencia.setModel(new javax.swing.SpinnerNumberModel(2017, 2017, 2020, 1));
+        diaAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+
+        mesAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        mesAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mesAsistenciaActionPerformed(evt);
+            }
+        });
+
+        agnoAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2017", "2018", "2019", "2020" }));
+        agnoAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agnoAsistenciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,21 +99,24 @@ public class NuevaAsistencia extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(presente)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(diaAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(mesAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(agnoAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(presente))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(diaAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mesAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(agnoAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -115,7 +130,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(diaAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mesAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mesAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agnoAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(presente)
@@ -138,6 +153,38 @@ public class NuevaAsistencia extends javax.swing.JFrame {
         listo(false);
     }//GEN-LAST:event_botonCancelarActionPerformed
 
+    private void agnoAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agnoAsistenciaActionPerformed
+        bis = Integer.parseInt((String) agnoAsistencia.getSelectedItem()) % 4 == 0;
+        if (((String) mesAsistencia.getSelectedItem()).equals("02")) {
+            setDias(bis ? 29 : 28);
+            diaAsistencia.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_agnoAsistenciaActionPerformed
+
+    private void mesAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mesAsistenciaActionPerformed
+        switch ((String) mesAsistencia.getSelectedItem()) {
+            case "02":
+                setDias(bis ? 29 : 28);
+                break;
+            case "04":
+            case "06":
+            case "09":
+            case "11":
+                setDias(30);
+                break;
+            default:
+                setDias(31);
+                break;
+        }
+    }//GEN-LAST:event_mesAsistenciaActionPerformed
+
+    private void setDias(int dias) {
+        diaAsistencia.removeAllItems();
+        for (int i = 1; i <= dias; i++) {
+            diaAsistencia.addItem(String.format("%02d", i));
+        }
+    }
+
     private void listo(boolean crea) {
         try {
             Principal.iniciarTransaccion();
@@ -145,9 +192,9 @@ public class NuevaAsistencia extends javax.swing.JFrame {
                 Asistencia asist;
                 asist = new Asistencia();
                 asist.setPresente(presente.isSelected());
-                String fecha = (String) diaAsistencia.getValue() + "-" +
-                        (String) mesAsistencia.getValue() + "-" + 
-                        (String) agnoAsistencia.getValue();
+                String fecha = (String) diaAsistencia.getSelectedItem() + "-"
+                        + (String) mesAsistencia.getSelectedItem() + "-"
+                        + (String) agnoAsistencia.getSelectedItem();
                 asist.setFecha(fecha);
                 Principal.getEstudianteSeleccionado().asistencia.add(asist);
                 AsistenciaDAO.save(asist);
@@ -158,7 +205,7 @@ public class NuevaAsistencia extends javax.swing.JFrame {
             Principal.error(pe);
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -198,14 +245,14 @@ public class NuevaAsistencia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSpinner agnoAsistencia;
+    private javax.swing.JComboBox<String> agnoAsistencia;
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonCancelar;
-    private javax.swing.JSpinner diaAsistencia;
+    private javax.swing.JComboBox<String> diaAsistencia;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JSpinner mesAsistencia;
+    private javax.swing.JComboBox<String> mesAsistencia;
     private javax.swing.JCheckBox presente;
     // End of variables declaration//GEN-END:variables
 }

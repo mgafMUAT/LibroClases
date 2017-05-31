@@ -22,7 +22,8 @@ public class VerAsistencia extends javax.swing.JFrame {
         int sum = 0;
         Asistencia[] reg = Principal.getEstudianteSeleccionado().asistencia.toArray();
         for (Asistencia asist: reg) {
-            String desc = (asist.getPresente() ? "Presente" : "Ausente");
+            String desc = asist.getFecha() + ": ";
+            desc += (asist.getPresente() ? "Presente" : "Ausente");
             modeloLista.addElement(desc);
             if (asist.getPresente()) {
                 sum++;
