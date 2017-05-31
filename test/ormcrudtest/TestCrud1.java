@@ -14,18 +14,7 @@ import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.orm.PersistentException;
 import org.orm.PersistentTransaction;
-import orm.Actividad;
-import orm.ActividadDAO;
-import orm.Asignatura;
-import orm.AsignaturaDAO;
-import orm.Curso;
-import orm.CursoDAO;
-import orm.Institucion;
-import orm.InstitucionDAO;
-import orm.Persona;
-import orm.PersonaDAO;
-import orm.Profesor;
-import orm.ProfesorDAO;
+import orm.*;
 
 /**
  *
@@ -131,8 +120,17 @@ public class TestCrud1 {
     }
     
     @Test
-    public void testCurso() {
-        
+    public void testCurso() throws PersistentException {
+        Curso load = CursoDAO.loadCursoByQuery("nivel = 9", null);
+        assertEquals(curso.getLetra(), load.getLetra());
+        assertEquals(curso.getNivel(), load.getNivel());
+    }
+    
+    @Test
+    public void testInstituto() throws PersistentException {
+        //Se supone que al momento se encuentran sólo los datos de un instituto
+        Institucion load = InstitucionDAO.loadInstitucionByQuery(null, null);
+        assertEquals(instit.getNombre(), load.getNombre());
     }
 
     // TODO add test methods here.
