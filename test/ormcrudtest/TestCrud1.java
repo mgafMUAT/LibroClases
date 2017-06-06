@@ -17,11 +17,13 @@ import org.orm.PersistentTransaction;
 import orm.*;
 
 /**
+ * Se presentan varias clases por clase de test debido a la existencia de varias
+ * relaciones que no admiten null.
  *
  * @author MauricioGabriel
  */
 public class TestCrud1 {
-    
+
     private PersistentTransaction t;
     private Actividad actv;
     private Asignatura asig;
@@ -30,18 +32,18 @@ public class TestCrud1 {
     private Profesor prof;
     private Persona prsn;
     private final String fail = "parámetros difieren";
-    
+
     public TestCrud1() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         actv = ActividadDAO.createActividad();
@@ -65,11 +67,11 @@ public class TestCrud1 {
         prof.setPersona_id_fk(prsn);
         asig.setProfesorid_pk(prof);
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Ignore("Ya realizado")
     public void testAdd() throws PersistentException {
         t = orm.LibroClasePersistentManager.instance().getSession().beginTransaction();
@@ -101,36 +103,45 @@ public class TestCrud1 {
         ActividadDAO.save(actv);
         t.commit();
     }
-    
-    @Test
-    public void testActividad() throws PersistentException {
+
+    @Ignore("Ya realizado")
+    public void testGetActividad() throws PersistentException {
         Actividad load = ActividadDAO.loadActividadByQuery("nombre = 'nombre de actividad'", null);
         assertEquals(fail, actv.getNombre() + actv.getDescripcion()
                 + actv.getTipo(), load.getNombre() + load.getDescripcion() + load.getTipo());
     }
-    
-    @Test
-    public void testAsignatura() throws PersistentException {
+
+    @Ignore("Ya realizado")
+    public void testGetAsignatura() throws PersistentException {
         Asignatura load = AsignaturaDAO.loadAsignaturaByQuery("nombre = 'nombre de asignatura'", null);
-        assertEquals(fail, load.getProfesorid_pk().getPersona_id_fk().getNombre()
-                , asig.getProfesorid_pk().getPersona_id_fk().getNombre());
+        assertEquals(fail, load.getProfesorid_pk().getPersona_id_fk().getNombre(),
+                asig.getProfesorid_pk().getPersona_id_fk().getNombre());
         assertEquals(fail, load.getNombre(), asig.getNombre());
         assertEquals(fail, load.getCurso_id_fk().getNivel() + load.getCurso_id_fk()
                 .getLetra(), asig.getCurso_id_fk().getNivel() + asig.getCurso_id_fk().getLetra());
     }
-    
-    @Test
-    public void testCurso() throws PersistentException {
+
+    @Ignore("Ya realizado")
+    public void testGetCurso() throws PersistentException {
         Curso load = CursoDAO.loadCursoByQuery("nivel = 9", null);
-        assertEquals(curso.getLetra(), load.getLetra());
-        assertEquals(curso.getNivel(), load.getNivel());
+        assertEquals(fail, curso.getLetra(), load.getLetra());
+        assertEquals(fail, curso.getNivel(), load.getNivel());
     }
-    
-    @Test
-    public void testInstituto() throws PersistentException {
+
+    @Ignore("Ya realizado")
+    public void testGetInstituto() throws PersistentException {
         //Se supone que al momento se encuentran sólo los datos de un instituto
         Institucion load = InstitucionDAO.loadInstitucionByQuery(null, null);
-        assertEquals(instit.getNombre(), load.getNombre());
+        assertEquals(fail, instit.getNombre(), load.getNombre());
+    }
+
+    @Ignore("Ya realizado")
+    public void testGetProfesor() throws PersistentException {
+        Profesor load = ProfesorDAO.loadProfesorByQuery(null, null);
+        Persona loadP = load.getPersona_id_fk();
+        Persona saveP = prof.getPersona_id_fk();
+        assertEquals(fail, loadP.getNombre(), saveP.getNombre());
+        assertEquals(fail, loadP.getRut(), saveP.getRut());
     }
 
     // TODO add test methods here.
