@@ -143,6 +143,35 @@ public class TestCrud1 {
         assertEquals(fail, loadP.getNombre(), saveP.getNombre());
         assertEquals(fail, loadP.getRut(), saveP.getRut());
     }
+    
+    @Test
+    public void testUpdateActividad() throws PersistentException {
+        ActividadDAO.loadActividadByQuery(null, null).setNombre("Nuevo Nombre");
+        assertEquals(fail, ActividadDAO.loadActividadByQuery(null, null).getNombre(), "Nuevo Nombre");
+        actv.setNombre("Nuevo Nombre");
+    }
+    
+    @Test
+    public void testUpdateAsignatura() throws PersistentException {
+        AsignaturaDAO.loadAsignaturaByQuery(null, null).setNombre("RamoAvanzado");
+        assertEquals(fail, AsignaturaDAO.loadAsignaturaByQuery(null, null).getNombre(), "RamoAvanzado");
+        asig.setNombre("RamoAvanzado");
+    }
+    
+    @Test
+    public void testUpdateCurso() {
+        
+    }
+    
+    @Test
+    public void testUpdateInstituto() {
+        
+    }
+    
+    @Test
+    public void testUpdateProfesor() {
+        
+    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
