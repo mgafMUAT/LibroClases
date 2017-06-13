@@ -72,7 +72,7 @@ public class TestCrud1 {
     public void tearDown() {
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (1º)")
     public void testAdd() throws PersistentException {
         t = orm.LibroClasePersistentManager.instance().getSession().beginTransaction();
         actv = ActividadDAO.createActividad();
@@ -104,14 +104,14 @@ public class TestCrud1 {
         t.commit();
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (2º)")
     public void testGetActividad() throws PersistentException {
         Actividad load = ActividadDAO.loadActividadByQuery("nombre = 'nombre de actividad'", null);
         assertEquals(fail, actv.getNombre() + actv.getDescripcion()
                 + actv.getTipo(), load.getNombre() + load.getDescripcion() + load.getTipo());
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (2º)")
     public void testGetAsignatura() throws PersistentException {
         Asignatura load = AsignaturaDAO.loadAsignaturaByQuery("nombre = 'nombre de asignatura'", null);
         assertEquals(fail, load.getProfesorid_pk().getPersona_id_fk().getNombre(),
@@ -121,21 +121,21 @@ public class TestCrud1 {
                 .getLetra(), asig.getCurso_id_fk().getNivel() + asig.getCurso_id_fk().getLetra());
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (2º)")
     public void testGetCurso() throws PersistentException {
         Curso load = CursoDAO.loadCursoByQuery("nivel = 9", null);
         assertEquals(fail, curso.getLetra(), load.getLetra());
         assertEquals(fail, curso.getNivel(), load.getNivel());
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (2º)")
     public void testGetInstituto() throws PersistentException {
         //Se supone que al momento se encuentran sólo los datos de un instituto
         Institucion load = InstitucionDAO.loadInstitucionByQuery(null, null);
         assertEquals(fail, instit.getNombre(), load.getNombre());
     }
 
-    @Ignore("Ya realizado")
+    @Ignore("Ya realizado (2º)")
     public void testGetProfesor() throws PersistentException {
         Profesor load = ProfesorDAO.loadProfesorByQuery(null, null);
         Persona loadP = load.getPersona_id_fk();
@@ -144,33 +144,60 @@ public class TestCrud1 {
         assertEquals(fail, loadP.getRut(), saveP.getRut());
     }
     
-    @Test
+    @Ignore("Ya realizado (3º)")
     public void testUpdateActividad() throws PersistentException {
-        ActividadDAO.loadActividadByQuery(null, null).setNombre("Nuevo Nombre");
-        assertEquals(fail, ActividadDAO.loadActividadByQuery(null, null).getNombre(), "Nuevo Nombre");
-        actv.setNombre("Nuevo Nombre");
+        String original = actv.getNombre();
+        String nuevo = "Nuevo Nombre";
+        Actividad load = ActividadDAO.loadActividadByQuery("nombre = '" + original + "'", null);
+        load.setNombre(nuevo);
+        load.setDescripcion("Una descripción más detallada");
+        ActividadDAO.save(load);
+        assertEquals(ActividadDAO.loadActividadByQuery("nombre = '" + nuevo + "'", null)
+                .getDescripcion(), "Una descripción más detallada");
     }
     
-    @Test
+    @Ignore("Ya realizado (3º)")
     public void testUpdateAsignatura() throws PersistentException {
-        AsignaturaDAO.loadAsignaturaByQuery(null, null).setNombre("RamoAvanzado");
-        assertEquals(fail, AsignaturaDAO.loadAsignaturaByQuery(null, null).getNombre(), "RamoAvanzado");
-        asig.setNombre("RamoAvanzado");
+        String original = asig.getNombre();
+        String nuevo = "Nuevo Ramo";
+        Asignatura load = AsignaturaDAO.loadAsignaturaByQuery("nombre = '" + original + "'", null);
+        load.setNombre(nuevo);
+        AsignaturaDAO.save(load);
+        assertNotNull(AsignaturaDAO.loadAsignaturaByQuery("nombre = '" + nuevo + "'", null));
     }
     
-    @Test
-    public void testUpdateCurso() {
-        
+    @Ignore("Ya realizado (3º)")
+    public void testUpdateCurso() throws PersistentException {
+        Curso load = CursoDAO.loadCursoByQuery("letra = 'C' and nivel = 9", null);
+        load.setLetra('H');
+        load.setNivel((byte) 16);
+        CursoDAO.save(load);
+        assertNotNull(CursoDAO.loadCursoByQuery("letra = 'C' and nivel = 9", null));
     }
     
-    @Test
-    public void testUpdateInstituto() {
-        
+    @Ignore("Ya realizado (3º)")
+    public void testUpdateInstituto() throws PersistentException {
+        String original = instit.getNombre();
+        String nuevo = "ColegioDistinto";
+        Institucion load = InstitucionDAO.loadInstitucionByQuery("nombre = '" +
+                original + "'", null);
+        load.setNombre(nuevo);
+        InstitucionDAO.save(load);
+        assertNotNull(InstitucionDAO.loadInstitucionByQuery("nombre = '" + nuevo + "'", null));
     }
     
-    @Test
-    public void testUpdateProfesor() {
-        
+    @Ignore("Ya realizado (3º)")
+    public void testUpdateProfesor() throws PersistentException {
+        String nombreN = "Otro Profe";
+        String rutN = "qwertyuio";
+        String nombOrig = prof.getPersona_id_fk().getNombre();
+        int pid = PersonaDAO.loadPersonaByQuery("nombre = '" + nombOrig + "'", null).getId();
+        Profesor load = ProfesorDAO.loadProfesorByQuery("persona_id_fk = " + pid, null);
+        load.getPersona_id_fk().setNombre(nombreN);
+        load.getPersona_id_fk().setRut(rutN);
+        ProfesorDAO.save(load);
+        assertEquals(ProfesorDAO.loadProfesorByQuery("persona_id_fk = " + pid, null)
+                .getPersona_id_fk().getNombre(), nombreN);
     }
 
     // TODO add test methods here.
