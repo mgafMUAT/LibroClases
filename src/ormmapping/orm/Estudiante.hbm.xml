@@ -12,12 +12,12 @@ License Type: Academic
 		</id>
 		<many-to-one name="persona_id_fk" column="persona_id_fk" class="orm.Persona" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
-		<many-to-one name="apoderado_id_fk" cascade="lock" column="apoderado_id_fk" class="orm.Apoderado" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="apoderado_id_fk" cascade="lock" column="apoderado_id_fk" class="orm.Apoderado" not-null="false" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="agnoIngreso" column="agnoIngreso" type="integer" length="10" not-null="true" lazy="false"/>
 		<property name="matricula" column="matricula" type="string" length="255" not-null="false" lazy="false"/>
 		<set name="ORM_Nota" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="estudiante_id_fk" not-null="true"/>
+			<key column="estudiante_id_fk" not-null="false"/>
 			<one-to-many class="orm.Nota"/>
 		</set>
 		<set name="ORM_Curso_estudiante" lazy="true" cascade="save-update,lock" inverse="true">
@@ -25,7 +25,7 @@ License Type: Academic
 			<one-to-many class="orm.Curso_estudiante"/>
 		</set>
 		<set name="ORM_Anotaciones" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="estudiante_id_fk" not-null="true"/>
+			<key column="estudiante_id_fk" not-null="false"/>
 			<one-to-many class="orm.Anotaciones"/>
 		</set>
 		<set name="ORM_Asistencia" lazy="true" cascade="save-update,lock" inverse="true">

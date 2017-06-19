@@ -12,7 +12,7 @@ License Type: Academic
 		</id>
 		<many-to-one name="actividad_id_fk" cascade="lock" column="actividad_id_fk" class="orm.Actividad" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
-		<many-to-one name="estudiante_id_fk" cascade="lock" column="estudiante_id_fk" class="orm.Estudiante" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="estudiante_id_fk" cascade="lock" column="estudiante_id_fk" class="orm.Estudiante" not-null="false" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="nota" column="nota" type="float" length="10" not-null="true" lazy="false"/>
 	</class>

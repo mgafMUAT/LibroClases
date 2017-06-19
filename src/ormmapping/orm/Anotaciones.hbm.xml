@@ -10,9 +10,9 @@ License Type: Academic
 			<generator class="increment">
 			</generator>
 		</id>
-		<many-to-one name="estudiante_id_fk" cascade="lock" column="estudiante_id_fk" class="orm.Estudiante" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="estudiante_id_fk" cascade="lock" column="estudiante_id_fk" class="orm.Estudiante" not-null="false" lazy="proxy" access="field">
 		</many-to-one>
-		<many-to-one name="profesor_id_fk" cascade="lock" column="profesor_id_fk" class="orm.Profesor" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="profesor_id_fk" cascade="lock" column="profesor_id_fk" class="orm.Profesor" not-null="false" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="esPositiva" column="esPositiva" type="boolean" not-null="true" lazy="false"/>
 		<property name="observacion" column="observacion" type="string" length="255" not-null="false" lazy="false"/>

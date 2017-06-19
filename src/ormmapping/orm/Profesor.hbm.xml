@@ -13,11 +13,11 @@ License Type: Academic
 		<many-to-one name="persona_id_fk" column="persona_id_fk" class="orm.Persona" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<set name="ORM_Anotaciones" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="profesor_id_fk" not-null="true"/>
+			<key column="profesor_id_fk" not-null="false"/>
 			<one-to-many class="orm.Anotaciones"/>
 		</set>
 		<set name="ORM_Asignatura" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="profesorid_pk" not-null="true"/>
+			<key column="profesorid_pk" not-null="false"/>
 			<one-to-many class="orm.Asignatura"/>
 		</set>
 	</class>

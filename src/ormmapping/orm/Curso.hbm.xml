@@ -10,16 +10,16 @@ License Type: Academic
 			<generator class="increment">
 			</generator>
 		</id>
-		<many-to-one name="institucion_id_fk" cascade="lock" column="institucion_id_fk" class="orm.Institucion" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="institucion_id_fk" cascade="lock" column="institucion_id_fk" class="orm.Institucion" not-null="false" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="nivel" column="nivel" type="byte" length="3" not-null="true" lazy="false"/>
 		<property name="letra" column="letra" type="character" length="1" not-null="true" lazy="false"/>
 		<set name="ORM_Asignatura" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="curso_id_fk" not-null="true"/>
+			<key column="curso_id_fk" not-null="false"/>
 			<one-to-many class="orm.Asignatura"/>
 		</set>
 		<set name="ORM_Curso_estudiante" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="curso_id_fk" not-null="true"/>
+			<key column="curso_id_fk" not-null="false"/>
 			<one-to-many class="orm.Curso_estudiante"/>
 		</set>
 	</class>

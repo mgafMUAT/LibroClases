@@ -12,7 +12,7 @@ License Type: Academic
 		</id>
 		<property name="nombre" column="nombre" type="string" length="255" not-null="false" lazy="false"/>
 		<set name="ORM_Curso" lazy="true" cascade="save-update,lock" inverse="true">
-			<key column="institucion_id_fk" not-null="true"/>
+			<key column="institucion_id_fk" not-null="false"/>
 			<one-to-many class="orm.Curso"/>
 		</set>
 		<set name="ORM_Directivo" lazy="true" cascade="save-update,lock" inverse="true">
