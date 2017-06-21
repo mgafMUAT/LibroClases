@@ -271,12 +271,12 @@
     <ServerName></ServerName>
     <SelectedForm>true</SelectedForm>
   </Setting>
-  <Setting type="2">
-    <Driver>MySQL (Connector/J Driver)</Driver>
-    <DriverFiles>C:\Users\MauricioGabriel\Downloads\mysql-connector-java-5.1.40-bin.jar</DriverFiles>
-    <Dialect>org.hibernate.dialect.MySQLDialect</Dialect>
-    <DriverClass>com.mysql.jdbc.Driver</DriverClass>
-    <URL>jdbc:mysql://localhost:3306/libroclases2</URL>
+  <Setting type="16777216">
+    <Driver>MariaDB</Driver>
+    <DriverFiles>C:\Users\MauricioGabriel\Downloads\mariadb-java-client-1.5.9.jar</DriverFiles>
+    <Dialect>org.hibernate.dialect.MySQL5Dialect</Dialect>
+    <DriverClass>org.mariadb.jdbc.Driver</DriverClass>
+    <URL>jdbc:mariadb://localhost:3306/libroclases2</URL>
     <UserName>root</UserName>
     <EncryptedPassword>25B023C9C23A1E4CA502D79EC3E562AE</EncryptedPassword>
     <HostName>localhost</HostName>
@@ -286,12 +286,12 @@
     <ServerName></ServerName>
     <SelectedForm>true</SelectedForm>
   </Setting>
-  <Setting type="16777216">
-    <Driver>MariaDB</Driver>
-    <DriverFiles>C:\Users\MauricioGabriel\Downloads\mariadb-java-client-1.5.9.jar</DriverFiles>
-    <Dialect>org.hibernate.dialect.MySQL5Dialect</Dialect>
-    <DriverClass>org.mariadb.jdbc.Driver</DriverClass>
-    <URL>jdbc:mariadb://localhost:3306/libroclases2</URL>
+  <Setting type="2">
+    <Driver>MySQL (Connector/J Driver)</Driver>
+    <DriverFiles>C:\Users\MauricioGabriel\Downloads\mysql-connector-java-5.1.40-bin.jar</DriverFiles>
+    <Dialect>org.hibernate.dialect.MySQLDialect</Dialect>
+    <DriverClass>com.mysql.jdbc.Driver</DriverClass>
+    <URL>jdbc:mysql://localhost:3306/libroclases2</URL>
     <UserName>root</UserName>
     <EncryptedPassword>25B023C9C23A1E4CA502D79EC3E562AE</EncryptedPassword>
     <HostName>localhost</HostName>
